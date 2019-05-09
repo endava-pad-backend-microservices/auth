@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.json.simple.JSONObject;
+
 public interface ITokenService {
-	void checkToken(String token);
+	boolean checkToken(JSONObject data);
 }

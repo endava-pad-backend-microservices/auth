@@ -2,6 +2,7 @@ package com.endava.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,24 +29,24 @@ public class LoginController {
 	@PostMapping("/signin")
 	@ResponseBody
 	public String login(@RequestBody LoginRequest loginRequest) {
-	return iLoginService.login(loginRequest.getUsername(), loginRequest.getPassword());
+		return iLoginService.login(loginRequest.getUsername(), loginRequest.getPassword());
 	}
 
 	@PostMapping("/signout")
 	@ResponseBody
-	public void logout(@RequestHeader(value="Authorization") String token) {
+	public void logout(@RequestHeader(value = "Authorization") String token) {
 		iLoginService.logout(token);
 	}
 
 	@PostMapping("/checkToken")
 	@ResponseBody
-	public void checkToken(String token) {
-		iTokenService.checkToken(token);
+	public boolean checkToken(@RequestBody JSONObject data) {
+		return iTokenService.checkToken(data);
 	}
-	
+
 	@GetMapping("/hello")
 	@ResponseBody
 	public String Hi() {
-	return "Hello!";
+		return "Hello!";
 	}
 }
