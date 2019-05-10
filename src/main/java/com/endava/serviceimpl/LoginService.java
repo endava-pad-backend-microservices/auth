@@ -65,21 +65,27 @@ public class LoginService implements ILoginService {
 
 		ResponseEntity<JSONObject> response = restTemplate.postForEntity(url, request, JSONObject.class);
 
-		String jsonString = new JSONObject((LinkedHashMap) response.getBody().get("data")).toString();
-		JSONParser parser = new JSONParser();
-		JSONObject data = null;
-		try {
-			data = (JSONObject) parser.parse(jsonString);
-		} catch (ParseException e) {
+		Boolean success = (Boolean) response.getBody().get("success");
+		if (success) {
+			String jsonString = new JSONObject((LinkedHashMap) response.getBody().get("data")).toString();
+			JSONParser parser = new JSONParser();
+			JSONObject data = null;
+			try {
+				data = (JSONObject) parser.parse(jsonString);
+			} catch (ParseException e) {
 
+			}
+			JSONArray roles = (data.get("roles")) != null ? (JSONArray) data.get("roles") : null;
+
+			String userId = (data.get("userId")) != null ? String.valueOf((Long) data.get("userId"))
+					: "No userId detected";
+
+			return roles != null && userId != null
+					? jwtTokenProvider.createToken(username, userId.toString(), roles.get(0).toString())
+					: "Role or userId invalid";
+		} else {
+			return (String) response.getBody().get("message");
 		}
-		JSONArray roles = (data.get("roles")) != null ? (JSONArray) data.get("roles") : null;
-
-		String userId = (data.get("userId")) != null ? String.valueOf((Long) data.get("userId")) : "No userId detected";
-
-		return roles != null && userId != null
-				? jwtTokenProvider.createToken(username, userId.toString(), roles.get(0).toString())
-				: "Role or userId invalid";
 	}
 
 	@Override
