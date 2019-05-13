@@ -53,15 +53,15 @@ public class LoginService implements ILoginService {
 				String.valueOf(instanceInfo.getPort()), "/getOne");
 
 		String url = String.join("", ms);
-
+                    
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("user", username);
-		map.add("password", password);
+		JSONObject map = new JSONObject();
+		map.put("username",username);
+		map.put("password", password);
 
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+		HttpEntity<JSONObject> request = new HttpEntity<JSONObject>(map,headers);
 
 		ResponseEntity<JSONObject> response = restTemplate.postForEntity(url, request, JSONObject.class);
 
@@ -77,7 +77,7 @@ public class LoginService implements ILoginService {
 			}
 			JSONArray roles = (data.get("roles")) != null ? (JSONArray) data.get("roles") : null;
 
-			String userId = (data.get("userId")) != null ? String.valueOf((Long) data.get("userId"))
+			String userId = (data.get("id")) != null ? String.valueOf((Long) data.get("id"))
 					: "No userId detected";
 
 			return roles != null && userId != null
