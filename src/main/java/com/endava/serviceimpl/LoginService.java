@@ -20,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.endava.bean.JwtToken;
+import com.endava.bean.SecurityConstants;
 import com.endava.repository.JwtTokenRepository;
 import com.endava.service.ILoginService;
 import com.netflix.appinfo.InstanceInfo;
@@ -46,11 +47,11 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public String login(String username, String password) {
-		Application userApp = eurekaClient.getApplication("USERS");
+		Application userApp = eurekaClient.getApplication(SecurityConstants.EUREKA_APP);
 		InstanceInfo instanceInfo = userApp.getInstances().get(0);
 
-		List<String> ms = Arrays.asList("http://", String.valueOf(instanceInfo.getIPAddr()), ":",
-				String.valueOf(instanceInfo.getPort()), "/getOne");
+		List<String> ms = Arrays.asList(SecurityConstants.PROT_CALL, String.valueOf(instanceInfo.getIPAddr()), ":",
+				String.valueOf(instanceInfo.getPort()), SecurityConstants.GET_USER_ENDPOINT);
 
 		String url = String.join("", ms);
                     
@@ -58,16 +59,16 @@ public class LoginService implements ILoginService {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		JSONObject map = new JSONObject();
-		map.put("username",username);
-		map.put("password", password);
+		map.put(SecurityConstants.KEY_USERNAME,username);
+		map.put(SecurityConstants.KEY_PASSWORD, password);
 
 		HttpEntity<JSONObject> request = new HttpEntity<JSONObject>(map,headers);
 
 		ResponseEntity<JSONObject> response = restTemplate.postForEntity(url, request, JSONObject.class);
 
-		Boolean success = (Boolean) response.getBody().get("success");
+		Boolean success = (Boolean) response.getBody().get(SecurityConstants.KEY_SUCCESS);
 		if (success) {
-			String jsonString = new JSONObject((LinkedHashMap) response.getBody().get("data")).toString();
+			String jsonString = new JSONObject((LinkedHashMap) response.getBody().get(SecurityConstants.KEY_DATA)).toString();
 			JSONParser parser = new JSONParser();
 			JSONObject data = null;
 			try {
@@ -75,16 +76,16 @@ public class LoginService implements ILoginService {
 			} catch (ParseException e) {
 
 			}
-			JSONArray roles = (data.get("roles")) != null ? (JSONArray) data.get("roles") : null;
+			JSONArray roles = (data.get(SecurityConstants.KEY_ROLES)) != null ? (JSONArray) data.get(SecurityConstants.KEY_ROLES) : null;
 
-			String userId = (data.get("id")) != null ? String.valueOf((Long) data.get("id"))
+			String userId = (data.get(SecurityConstants.KEY_ID)) != null ? String.valueOf((Long) data.get(SecurityConstants.KEY_ID))
 					: "No userId detected";
 
 			return roles != null && userId != null
 					? jwtTokenProvider.createToken(username, userId.toString(), roles.get(0).toString())
 					: "Role or userId invalid";
 		} else {
-			return (String) response.getBody().get("message");
+			return (String) response.getBody().get(SecurityConstants.KEY_MESSAGE);
 		}
 	}
 
