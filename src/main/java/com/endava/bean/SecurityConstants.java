@@ -2,7 +2,7 @@ package com.endava.bean;
 
 public class SecurityConstants {
 	public static final String TOKEN_HEADER = "token";
-	public static final String [] UNSECURED_URLS = {"/auth/login"};
+	public static final String[] UNSECURED_URLS = { "/auth/login" };
 	public static final String KEY_USERNAME = "username";
 	public static final String KEY_PASSWORD = "password";
 	public static final String KEY_ROLES = "roles";
