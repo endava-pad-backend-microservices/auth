@@ -52,8 +52,6 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
         
-        String k = "";
-        
         jwtTokenRepository.save(new JwtToken(token,userId));
         return token;
     }

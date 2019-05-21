@@ -8,6 +8,7 @@ RUN mvn package
 
 FROM openjdk:12 as Target
 COPY --from=builder /build/target/auth-1.0.0.jar auth.jar
+
 ENV MONGO_URL=pad-b-auth-database \
  EUREKA_URL=pad-b-registry \
  SERVER_URL=pad-b-auth \
@@ -18,10 +19,8 @@ ENV MONGO_URL=pad-b-auth-database \
  MONGO_PORT=27018
 
 CMD wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \ 
-    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz 
-    
-RUN dockerize -wait tcp://$EUREKA_URL:8761 -timeout 60m yarn start && dockerize -wait tcp://$MONGO_URL:$MONGO_PORT -timeout 60m yarn start
+&& tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \ 
+&& rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz && dockerize -wait tcp://$EUREKA_URL:8761 -timeout 60m yarn start && dockerize -wait tcp://$MONGO_URL:$MONGO_PORT -timeout 60m yarn start
 
 ENTRYPOINT ["java","-jar","/auth.jar"]
 
