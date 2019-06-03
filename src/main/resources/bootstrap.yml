@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      uri:
+      - http://${CONFIG_URL}:8086/
+      name: dev
+      profile: dev
+      label: configuration
+  application:
+    name: configuration
