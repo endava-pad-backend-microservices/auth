@@ -1,6 +1,8 @@
 package com.endava.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import com.endava.bean.LoginRequest;
+import com.endava.service.ILoginService;
+import com.endava.service.ITokenService;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.endava.bean.LoginRequest;
-import com.endava.service.ILoginService;
-import com.endava.service.ITokenService;
-
 @Controller
 @RequestMapping
 public class LoginController {
@@ -25,7 +23,7 @@ public class LoginController {
 
 	@Autowired
 	private ITokenService iTokenService;
-
+	
 	@PostMapping("/signin")
 	@ResponseBody
 	public String login(@RequestBody LoginRequest loginRequest) {

@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan({"com.endava.controller","com.endava.provider","com.endava.bean","com.endava.serviceimpl"})
 @EnableSwagger2
 public class AuthApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AuthApplication.class, args);
 	}
