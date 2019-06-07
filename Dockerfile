@@ -16,7 +16,7 @@ ENV MONGO_URL=pad-b-auth-database \
     MONGO_USER=admin \ 
     MONGO_PASSWORD=123456 \ 
     DOCKERIZE_VERSION=v0.6.0 \ 
-    MONGO_PORT=27018 \ 
+    MONGO_PORT=27017 \ 
     CONFIG_URL=pad-b-config \ 
     CONFIG_PORT=8086
 

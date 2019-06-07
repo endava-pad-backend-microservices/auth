@@ -4,6 +4,14 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.endava.bean.JwtToken;
+import com.endava.bean.SecurityConstants;
+import com.endava.repository.JwtTokenRepository;
+import com.endava.service.ILoginService;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,17 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import com.endava.bean.JwtToken;
-import com.endava.bean.SecurityConstants;
-import com.endava.repository.JwtTokenRepository;
-import com.endava.service.ILoginService;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.shared.Application;
 
 @Service
 public class LoginService implements ILoginService {
