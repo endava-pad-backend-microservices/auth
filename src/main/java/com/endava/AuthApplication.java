@@ -50,5 +50,5 @@ public class AuthApplication {
 	public Sampler defaultSampler() {
 		return Sampler.ALWAYS_SAMPLE;
 	}
-
+ 
 }
