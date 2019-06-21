@@ -6,14 +6,14 @@ import com.endava.service.ITokenService;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping
 public class LoginController {
 
@@ -22,7 +22,7 @@ public class LoginController {
 
 	@Autowired
 	private ITokenService iTokenService;
-	
+
 	@PostMapping("/signin")
 	@ResponseBody
 	public String login(@RequestBody LoginRequest loginRequest) {
