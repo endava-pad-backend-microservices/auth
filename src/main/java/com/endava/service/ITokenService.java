@@ -1,7 +1,7 @@
 package com.endava.service;
 
-import org.json.simple.JSONObject;
+import com.endava.bean.CheckTokenRequest;
 
 public interface ITokenService {
-	boolean checkToken(JSONObject data);
+	boolean checkToken(CheckTokenRequest data);
 }

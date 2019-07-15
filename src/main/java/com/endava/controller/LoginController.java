@@ -1,10 +1,10 @@
 package com.endava.controller;
 
+import com.endava.bean.CheckTokenRequest;
 import com.endava.bean.LoginRequest;
 import com.endava.service.ILoginService;
 import com.endava.service.ITokenService;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +37,7 @@ public class LoginController {
 
 	@PostMapping("/checkToken")
 	@ResponseBody
-	public boolean checkToken(@RequestBody JSONObject data) {
+	public boolean checkToken(@RequestBody CheckTokenRequest data) {
 		return iTokenService.checkToken(data);
 	}
 }
